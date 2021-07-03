@@ -13,6 +13,7 @@ import "ojs/ojmodule-element";
 import { ojNavigationList } from "ojs/ojnavigationlist";
 import { ojModule } from "ojs/ojmodule-element";
 import Context = require("ojs/ojcontext");
+import UrlPathAdapter = require("ojs/ojurlpathadapter");
 
 interface CoreRouterDetail {
   label: string;
@@ -69,7 +70,7 @@ class RootViewModel {
     ];
     // router setup
     const router = new CoreRouter(navData, {
-      urlAdapter: new UrlParamAdapter()
+      urlAdapter: new UrlPathAdapter()
     });
     router.sync();
 
@@ -104,17 +105,17 @@ class RootViewModel {
     // header
 
     // application Name used in Branding Area
-    this.appName = ko.observable("App Name");
+    this.appName = ko.observable("Capsule Session");
     // user Info used in Global Navigation area
 
     this.userLogin = ko.observable("john.hancock@oracle.com");
     // footer
     this.footerLinks = [
-      {name: 'About Oracle', linkId: 'aboutOracle', linkTarget:'http://www.oracle.com/us/corporate/index.html#menu-about'},
-      { name: "Contact Us", id: "contactUs", linkTarget: "http://www.oracle.com/us/corporate/contact/index.html" },
-      { name: "Legal Notices", id: "legalNotices", linkTarget: "http://www.oracle.com/us/legal/index.html" },
-      { name: "Terms Of Use", id: "termsOfUse", linkTarget: "http://www.oracle.com/us/legal/terms/index.html" },
-      { name: "Your Privacy Rights", id: "yourPrivacyRights", linkTarget: "http://www.oracle.com/us/legal/privacy/index.html" },
+      // {name: 'About Oracle', linkId: 'aboutOracle', linkTarget:'/about'},
+      // { name: "Contact Us", id: "contactUs", linkTarget: "http://www.oracle.com/us/corporate/contact/index.html" },
+      // { name: "Legal Notices", id: "legalNotices", linkTarget: "http://www.oracle.com/us/legal/index.html" },
+      // { name: "Terms Of Use", id: "termsOfUse", linkTarget: "http://www.oracle.com/us/legal/terms/index.html" },
+      // { name: "Your Privacy Rights", id: "yourPrivacyRights", linkTarget: "http://www.oracle.com/us/legal/privacy/index.html" },
     ];
     // release the application bootstrap busy state
     Context.getPageContext().getBusyContext().applicationBootstrapComplete();        

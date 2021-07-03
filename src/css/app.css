@@ -14,3 +14,8 @@
   height: 1px;
   overflow: hidden;
 }
+
+.oj-listitemlayout-textslots ul {
+  padding-right: 0;
+  padding-left: 0;
+}

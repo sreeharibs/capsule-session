@@ -28,6 +28,21 @@
       }
     },
 
+    "tabletop": {
+      "cdn": "3rdparty",
+      "cwd": "node_modules/tabletop/src",
+      "debug": {
+        "src": ["*.js"],
+        "path": "libs/tabletop/tabletop.js",
+        "cdnPath": ""
+      },
+      "release": {
+        "src": ["*.js"],
+        "path": "libs/tabletop/tabletop.js",
+        "cdnPath": ""
+      }
+    },
+
     "jquery": {
       "cdn": "3rdparty",
       "cwd": "node_modules/jquery/dist",
