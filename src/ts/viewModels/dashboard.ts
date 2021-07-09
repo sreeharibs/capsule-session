@@ -27,12 +27,30 @@ import "ojs/ojgauge";
 import "ojs/ojbutton";
 import "ojs/ojlistitemlayout";
 import * as AccUtils from "../accUtils";
+
+//tooltip import start
+import * as Bootstrap from 'ojs/ojbootstrap';
+import { ojPopup } from 'ojs/ojpopup';
+import 'ojs/ojpopup';
+import { ojInputText } from "@oracle/oraclejet/dist/types/ojinputtext";
+//tooltip import end
+
 class DashboardViewModel {
 
   schoolObservableArray: ko.ObservableArray;
   private page: string;
   componentType: ko.Observable<string>;
   sheetData: any;
+
+  //tooltip var start
+  private static readonly _AUTO_TIMEOUT: number = 300;
+  private static readonly _OPEN_DELAY: number = 500;
+  private static readonly _CONTEXT_NODE: string = 'tooltip-context-node';
+  private _helpDataAttr: string;
+  private _rootElement: HTMLElement;
+  private _tooltipPopupId: string;
+  private _timeoutId: number;
+  //tooltip var end
 
   private readonly districts = [
     { value: "", label: "All" },
@@ -60,6 +78,10 @@ courseDP = new ArrayDataProvider([], {
     keyAttributes: "value",
   });
 
+  langDP = new ArrayDataProvider([], {
+    keyAttributes: "value",
+  });
+
 private readonly sortCriteriaMap = {};
 private readonly genderFilterCriteriaMap = {};
 private readonly ratingFilterCriteriaMap = {};
@@ -67,7 +89,10 @@ private readonly districtFilterCriteriaMap = {};
 private priceCriteria = [];
 private ratingCriteria = [];
 private authorCriteria = [];
+private codeCriteria = [];
+private nameCriteria = [];
 private courseCriteria = [];
+private langCriteria = [];
 private currentSortCriteria;
 private currentFilterCriterion;
 private readonly currencyOptions: IntlNumberConverter.ConverterOptions = {
@@ -79,6 +104,7 @@ readonly currencyConverter = new IntlNumberConverter(this.currencyOptions);
 baseDataProvider;
 dataProvider = ko.observable();
 courseDataProvider = ko.observable();
+langDataProvider = ko.observable();
 readonly currentSort = ko.observable("default");
 private readonly options = [
   {
@@ -151,12 +177,38 @@ handleRatingFilterChanged = (
   this._handleFilterChanged();
 };
 
+handleCodeFilterChanged = (
+  //@ts-ignore
+event: ojInputText.valueChanged<OptionData["value"], OptionData>
+) => { 
+const criteria = new Array();
+if(event.detail.value ) {
+  criteria.push({ op: "$eq", value: { SchoolCode: event.detail.value } });
+}
+this.codeCriteria = criteria;
+this._handleFilterChanged();
+};
+
+handleNameFilterChanged = (
+  //@ts-ignore
+event: ojInputText.valueChanged<OptionData["value"], OptionData>
+) => { 
+const criteria = new Array();
+if(event.detail.value ) {
+  criteria.push({ op: "$co", value: { Name: event.detail.value.toUpperCase  () } });
+}
+this.nameCriteria = criteria;
+this._handleFilterChanged();
+};
+
+
+
 handleDistrictFilterChanged = (
     //@ts-ignore
   event: ojSelectSingle.valueChanged<OptionData["value"], OptionData>
 ) => { 
   const criteria = new Array();
-  if(event.detail.value) {
+  if(event.detail.value ) {
     criteria.push({ op: "$eq", value: { District: event.detail.value } });
   }
   this.authorCriteria = criteria;
@@ -167,15 +219,32 @@ handleCourseFilterChanged = (
     //@ts-ignore
   event: ojSelectSingle.valueChanged<OptionData["value"], OptionData>
 ) => {
-    if(event.detail.value) {
-        const criteria = new Array();
-        criteria.push({ op: "$co", value: { Courses: event.detail.value } });
-        console.log(event.detail.value);
-        this.courseCriteria = criteria;
+  const criteria = new Array();
+    if(event.detail.value && event.detail.value != "All") {
         
-        this._handleFilterChanged();
+        criteria.push({ op: "$co", value: { CourseTooltip: event.detail.value } });
+        console.log(event.detail.value);
+
     }
+    this.courseCriteria = criteria;
+        
+    this._handleFilterChanged();
  
+};
+
+handleLangFilterChanged = (
+  //@ts-ignore
+event: ojSelectSingle.valueChanged<OptionData["value"], OptionData>
+) => {
+  const criteria = new Array();
+  if(event.detail.value && event.detail.value != "All") {
+      criteria.push({ op: "$co", value: { SecondLanguagesTooltip: event.detail.value } });
+      console.log(event.detail.value);
+  }
+  this.langCriteria = criteria;
+      
+  this._handleFilterChanged();
+
 };
 
 private _getCriteria = (
@@ -205,8 +274,17 @@ private _handleFilterChanged = () => {
   if (this.authorCriteria.length > 0) {
     criteria.push({ op: "$or", criteria: this.authorCriteria });
   }
+  if (this.codeCriteria.length > 0) {
+    criteria.push({ op: "$or", criteria: this.codeCriteria });
+  }
+  if (this.nameCriteria.length > 0) {
+    criteria.push({ op: "$or", criteria: this.nameCriteria });
+  }
   if (this.courseCriteria.length > 0) {
     criteria.push({ op: "$or", criteria: this.courseCriteria });
+  }
+  if (this.langCriteria.length > 0) {
+    criteria.push({ op: "$or", criteria: this.langCriteria });
   }
 
   const filterCriterion =
@@ -221,7 +299,44 @@ private _handleFilterChanged = () => {
 };
 
 constructor(context: Composite.ViewModelContext<Composite.PropertiesType>) {        
-    //At the start of your viewModel constructor
+    
+  //tooltip constructor start
+  this._helpDataAttr = 'data-title';
+    this._rootElement = document.getElementById('pageContent');
+  
+    let uniqueId = 'id' + (new Date()).getTime();
+    uniqueId = 'idPopupId';
+    let tooltipPopup = document.createElement('oj-popup') as ojPopup;
+    tooltipPopup.setAttribute('id', uniqueId);
+    tooltipPopup.style.maxWidth = '530px';
+    this._rootElement.appendChild(tooltipPopup);
+    this._tooltipPopupId = tooltipPopup.getAttribute('id') as string;
+  
+    let callbackClearTimeout = this._handleClearTimeout;
+    let callbackSetTimeout = this._handleSetTimeout;
+    let callbackCleanup = this._handleCleanup;
+  
+    tooltipPopup.position = {
+      my: { horizontal: 'start', vertical: 'top' },
+      offset: { x: 0, y: 10 },
+      at: { horizontal: 'start', vertical: 'bottom' }
+    };
+  
+    tooltipPopup.initialFocus = 'none';
+    tooltipPopup.autoDismiss = 'focusLoss';
+    tooltipPopup.modality = 'modeless';
+    tooltipPopup.addEventListener('ojOpen', callbackSetTimeout);
+    tooltipPopup.addEventListener('ojClose', callbackCleanup);
+    tooltipPopup.addEventListener('ojBeforeClose', callbackClearTimeout);
+    tooltipPopup.addEventListener('ojFocus', callbackClearTimeout);
+    tooltipPopup.addEventListener('mouseenter', callbackClearTimeout);
+  
+  
+    this._rootElement.addEventListener('mouseenter', this._handleOpen, true);
+    this._rootElement.addEventListener('focus', this._handleClose, true);
+    //tooltip constructor end
+  
+  //At the start of your viewModel constructor
     const elementContext: Context = Context.getContext(context.element);
     const busyContext: Context.BusyContext = elementContext.getBusyContext();
     const options = {"description": "Web Component Startup - Waiting for data"};
@@ -279,6 +394,7 @@ constructor(context: Composite.ViewModelContext<Composite.PropertiesType>) {
   
   this.dataProvider = ko.observable(this.baseDataProvider);
   this.courseDataProvider = ko.observable(this.courseDP);
+  this.langDataProvider = ko.observable(this.langDP);
   let self = this;
     Tabletop.init( {
     key: 'https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/pubhtml',
@@ -290,10 +406,16 @@ constructor(context: Composite.ViewModelContext<Composite.PropertiesType>) {
       });
 
       self.courseDP = new ArrayDataProvider(data.Courses.elements, {
-        keyAttributes: "value",
+        keyAttributes: "label",
       });
       self.courseDataProvider(
         new ListDataProviderView(self.courseDP)
+      );
+      self.langDP = new ArrayDataProvider(data.SecondLanguage.elements, {
+        keyAttributes: "label",
+      });
+      self.langDataProvider(
+        new ListDataProviderView(self.langDP)
       );
       self.dataProvider(
         new ListDataProviderView(self.baseDataProvider)
@@ -309,6 +431,100 @@ constructor(context: Composite.ViewModelContext<Composite.PropertiesType>) {
    
 }
   
+//tooltip helper method start
+public data (el: HTMLElement, attr: string, val: HTMLElement | null) {
+  
+  let attributes = new WeakMap();
+  let elAttrs = attributes.get(el);
+  let isSetOperation = arguments.length > 2;
+
+  if (isSetOperation) {
+    if (!elAttrs) attributes.set(el, elAttrs = {});
+    elAttrs[attr] = val;
+  } else {
+    return datasetOrCachedAttrsValue();
+  }
+
+  function datasetOrCachedAttrsValue() {
+    let attrVal = el.dataset[attr];
+
+    return typeof attrVal !== 'undefined' ?
+                attrVal :
+                elAttrs && elAttrs[attr];
+  }
+};
+
+private _handleOpen = (event: Event) => {
+  let target = event.target as ojPopup;
+  let titleContext = this._getTitleContext(target);
+
+  let tooltipPopupId = this._tooltipPopupId;
+  let popup = document.getElementById(tooltipPopupId) as ojPopup;
+
+  if (titleContext) {
+    let oldNode = this.data(popup, DashboardViewModel._CONTEXT_NODE, null);
+    let titleContextCopy = titleContext;
+    if (oldNode && oldNode === titleContext.node) { return; }
+
+    setTimeout(() => {
+      this.data(popup, DashboardViewModel._CONTEXT_NODE, titleContextCopy.node);
+      let content = this._getContentNode(popup) as Element;
+      content.innerHTML = titleContextCopy.title;
+      popup.open(target as HTMLElement);
+    },
+    DashboardViewModel._OPEN_DELAY);
+  }
+};
+
+private _getContentNode(popup: HTMLElement) {
+  let content = popup.querySelector('.oj-popup-content');
+  return content;
+};
+
+private _handleSetTimeout() {
+  this._timeoutId = window.setTimeout(this._handleClose, DashboardViewModel._AUTO_TIMEOUT);
+};
+
+private _handleClearTimeout() {
+  let timeoutId = this._timeoutId;
+  delete this._timeoutId;
+  window.clearTimeout(timeoutId);
+};
+
+private _handleCleanup(event: CustomEvent) {
+  let popup = event.target as ojPopup;
+  this.data(popup, DashboardViewModel._CONTEXT_NODE, null);
+};
+
+private _handleClose = () => {
+  let tooltipPopupId = this._tooltipPopupId;
+  let popup = document.getElementById(tooltipPopupId) as ojPopup;
+
+  let isOpen = !popup.isOpen();
+  if (!isOpen) {
+    popup.close();
+  }
+};
+
+private _getTitleContext(node: ojPopup) {
+  let helpDataAttr = this._helpDataAttr;
+  let i = 0;
+  let MAX_PARENTS = 5;
+
+  // eslint-disable-next-line no-plusplus
+  while ((node !== null) && (i++ < MAX_PARENTS)) {
+    if (node.nodeType === 1) {
+      let title = node.getAttribute(helpDataAttr);
+      if (title && title.length > 0) { return { title: title, node: node }; }
+    }
+    // eslint-disable-next-line no-param-reassign
+    node = node.parentNode as ojPopup;
+
+  }
+  return null;
+};
+//tooltip helper method end
+
 
   /**
    * Optional ViewModel method invoked after the View is inserted into the
