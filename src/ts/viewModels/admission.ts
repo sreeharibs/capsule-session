@@ -37,10 +37,8 @@ import { ojInputText } from "@oracle/oraclejet/dist/types/ojinputtext";
 
 class DashboardViewModel {
 
-  schoolObservableArray: ko.ObservableArray;
   private page: string;
   componentType: ko.Observable<string>;
-  sheetData: any;
 
   //tooltip var start
   private static readonly _AUTO_TIMEOUT: number = 300;
@@ -333,7 +331,7 @@ constructor(context: Composite.ViewModelContext<Composite.PropertiesType>) {
   
   
     this._rootElement.addEventListener('mouseenter', this._handleOpen, true);
-    this._rootElement.addEventListener('focus', this._handleClose, true);
+    //this._rootElement.addEventListener('focus', this._handleClose, true);
     //tooltip constructor end
   
   //At the start of your viewModel constructor
@@ -400,7 +398,6 @@ constructor(context: Composite.ViewModelContext<Composite.PropertiesType>) {
     key: 'https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/pubhtml',
     simpleSheet: false }
   ).then(function(data, tabletop) { 
-    self.sheetData = data.Schools1.elements;
     self.baseDataProvider = new ArrayDataProvider(data.Schools1.elements, {
         keyAttributes: "ID",
       });
@@ -500,7 +497,10 @@ private _handleClose = () => {
   let tooltipPopupId = this._tooltipPopupId;
   let popup = document.getElementById(tooltipPopupId) as ojPopup;
 
-  let isOpen = !popup.isOpen();
+  let isOpen = false;
+  if(popup) {
+    isOpen = !popup.isOpen();
+  }
   if (!isOpen) {
     popup.close();
   }
@@ -536,7 +536,7 @@ private _getTitleContext(node: ojPopup) {
    */
   connected(): void {
     AccUtils.announce("Dashboard page loaded.");
-    document.title = "Dashboard";
+    document.title = "Admissions";
     // implement further logic if needed
   }
 

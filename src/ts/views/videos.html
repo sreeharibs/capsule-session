@@ -1,0 +1,40 @@
+<!--
+ Copyright (c) 2014, 2021, Oracle and/or its affiliates.
+ Licensed under The Universal Permissive License (UPL), Version 1.0
+ as shown at https://oss.oracle.com/licenses/upl/
+ -->
+<div class="oj-hybrid-padding">
+  <h1>Videos</h1>
+  <div>
+  </div>
+
+  <div id="waterfall-container">
+    <oj-buttonset-one id="filters" on-value-changed="[[handleFilterChanged]]" value="[[filters]]" aria-label="Choose to show employees or departments or both." class="oj-buttonset-width-auto">
+      <oj-option value="all">Show All</oj-option>
+      <oj-option value="Physics">Physics</oj-option>
+      <oj-option value="Chemistry">Chemistry</oj-option>
+      <oj-option value="Biology">Biology</oj-option>
+    </oj-buttonset-one>
+    <oj-waterfall-layout id="waterfall" aria-label="dashboard" class="demo-waterfall" data="[[dataProvider]]">
+      <template slot="itemTemplate" data-oj-as="item">
+          <oj-action-card class="oj-flex-item">
+            </demo-profile-card-layout>
+            <div class="demo-profile-card-layout-container">
+              <div class="demo-profile-card-layout-inner" data-bind="attr: { 'data-link': item.data.Link }" on-click="[[clickListener]]">
+                <oj-avatar class="demo-profile-card-layout-emp-image oj-complete" role="img" size="xxl" initials='[[item.data.Tags]]' src="[[item.data.Thumbnail]]" :aria-label="[['Avatar of ' + item.data.name]]"></oj-avatar>
+                <div class="oj-text-primary-color demo-profile-card-layout-emp-name oj-typography-subheading-xs">
+                  <oj-bind-text value="[[item.data.Title]]"></oj-bind-text>
+                </div>
+                <div class="demo-profile-card-layout-emp-spacer"></div>
+                <div class="oj-text-tertiary-color demo-profile-card-layout-emp-title oj-typography-body-md">
+                  <oj-bind-text value="[[item.data.SubTitle]]"></oj-bind-text>
+                </div>
+              </div>
+            </div>
+          </oj-action-card>
+      </template>
+    </oj-waterfall-layout>
+  </div>
+
+
+</div>

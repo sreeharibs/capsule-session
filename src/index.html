@@ -27,7 +27,7 @@
   ***************************** IMPORTANT INFORMATION ************************************ -->
 <html lang="en-us">
   <head>
-    <title>Oracle JET Starter Template - Web Nav Drawer</title>
+    <title>Capsule Session</title>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="viewport-fit=cover, width=device-width, initial-scale=1">
@@ -89,15 +89,14 @@
         <header role="banner" class="oj-web-applayout-header">
           <div class="oj-web-applayout-max-width oj-flex-bar oj-sm-align-items-center">
             <!-- Offcanvas toggle button -->
-            <div class="oj-flex-bar-start oj-md-hide">
+            <div class="oj-flex-bar-start oj-md-hide" style="padding-right:0px;">
               <oj-button id="drawerToggleButton" class="oj-button-lg" on-oj-action="[[toggleDrawer]]" chroming="borderless" display="icons">
                 <span slot="startIcon" class="oj-web-applayout-offcanvas-icon"></span>
                 <span>Application Navigation</span>
               </oj-button>
             </div>
-            <div class="oj-flex-bar-middle oj-sm-align-items-baseline">
-              <span role="img" class="oj-icon demo-oracle-icon" title="Oracle Logo" alt="Oracle Logo"></span>
-              <h1 class="oj-sm-only-hide oj-web-applayout-header-title" title="Application Name"><oj-bind-text value="[[appName]]"></oj-bind-text></h1>
+            <div class="oj-flex-bar-middle oj-sm-align-items-baseline" style="padding-top:5px;">
+              <h1 class="oj-web-applayout-header-title" title="Application Name"><oj-bind-text value="[[appName]]"></oj-bind-text></h1>
             </div>
             <div class="oj-flex-bar-end">
               <!-- Responsive Toolbar -->
