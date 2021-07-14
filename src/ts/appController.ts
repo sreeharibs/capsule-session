@@ -62,9 +62,9 @@ class RootViewModel {
     }
 
     const navData = [
-      { path: "", redirect: "home" },
-      { path: "home", detail: { label: "Home", iconClass: "oj-ux-ico-home" } },
-      { path: "admission", detail: { label: "Admission", iconClass: "oj-ux-ico-school" } },
+      { path: "", redirect: "videos" },
+      // { path: "home", detail: { label: "Home", iconClass: "oj-ux-ico-home" } },
+      { path: "admission", detail: { label: "School Finder", iconClass: "oj-ux-ico-school" } },
       { path: "videos", detail: { label: "Videos", iconClass: "oj-ux-ico-youtube" } },
       //{ path: "about", detail: { label: "About", iconClass: "oj-ux-ico-information-s" } }
     ];

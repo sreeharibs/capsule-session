@@ -68,14 +68,14 @@ demo-profile-card-layout:not(.oj-complete) {
 }
 
 .demo-profile-card-layout-container {
-  width: 330px;
-  height: 395px;
+  width: 250px;
+  height: 325px;
 }
 
 .demo-profile-card-layout-inner {
-  padding-top: 70px;
-  padding-left: 32px;
-  padding-right: 32px;
+  padding-top: 27px;
+  padding-left: 27px;
+  padding-right: 27px;
 }
 
 .demo-profile-card-layout-inner-more {
