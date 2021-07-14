@@ -99,7 +99,7 @@ class CustomersViewModel {
    */
   connected(): void {
     AccUtils.announce("Customers page loaded.");
-    document.title = "Customers";
+    document.title = "Capsule Session";
     // implement further logic if needed
   }
 
