@@ -181,7 +181,7 @@ event: ojInputText.valueChanged<OptionData["value"], OptionData>
 ) => { 
 const criteria = new Array();
 if(event.detail.value ) {
-  criteria.push({ op: "$eq", value: { SchoolCode: event.detail.value } });
+  criteria.push({ op: "$eq", value: { schoolcode: event.detail.value } });
 }
 this.codeCriteria = criteria;
 this._handleFilterChanged();
@@ -193,7 +193,7 @@ event: ojInputText.valueChanged<OptionData["value"], OptionData>
 ) => { 
 const criteria = new Array();
 if(event.detail.value ) {
-  criteria.push({ op: "$co", value: { Name: event.detail.value.toUpperCase  () } });
+  criteria.push({ op: "$co", value: { name: event.detail.value.toUpperCase  () } });
 }
 this.nameCriteria = criteria;
 this._handleFilterChanged();
@@ -207,7 +207,7 @@ handleDistrictFilterChanged = (
 ) => { 
   const criteria = new Array();
   if(event.detail.value ) {
-    criteria.push({ op: "$eq", value: { District: event.detail.value } });
+    criteria.push({ op: "$eq", value: { district: event.detail.value } });
   }
   this.authorCriteria = criteria;
   this._handleFilterChanged();
@@ -220,7 +220,7 @@ handleCourseFilterChanged = (
   const criteria = new Array();
     if(event.detail.value && event.detail.value != "All") {
         
-        criteria.push({ op: "$co", value: { CourseTooltip: event.detail.value } });
+        criteria.push({ op: "$co", value: { coursetooltip: event.detail.value } });
         console.log(event.detail.value);
 
     }
@@ -236,7 +236,7 @@ event: ojSelectSingle.valueChanged<OptionData["value"], OptionData>
 ) => {
   const criteria = new Array();
   if(event.detail.value && event.detail.value != "All") {
-      criteria.push({ op: "$co", value: { SecondLanguagesTooltip: event.detail.value } });
+      criteria.push({ op: "$co", value: { secondlanguagestooltip: event.detail.value } });
       console.log(event.detail.value);
   }
   this.langCriteria = criteria;
@@ -359,30 +359,30 @@ constructor(context: Composite.ViewModelContext<Composite.PropertiesType>) {
     direction: "ascending",
   };
 
-  this.genderFilterCriteriaMap["boys"] = { op: "$eq", value: { Gender: 'Boys' } };
-  this.genderFilterCriteriaMap["girls"] = { op: "$eq", value: { Gender: 'Girls' } };
-  this.genderFilterCriteriaMap["mixed"] = { op: "$eq", value: { Gender: 'Mixed' } };
+  this.genderFilterCriteriaMap["boys"] = { op: "$eq", value: { gender: 'Boys' } };
+  this.genderFilterCriteriaMap["girls"] = { op: "$eq", value: { gender: 'Girls' } };
+  this.genderFilterCriteriaMap["mixed"] = { op: "$eq", value: { gender: 'Mixed' } };
 
   this.ratingFilterCriteriaMap["two"] = { op: "$lt", value: { RATING: 3 } };
   this.ratingFilterCriteriaMap["three"] = { op: "$ge", value: { RATING: 3 } };
   this.ratingFilterCriteriaMap["four"] = { op: "$ge", value: { RATING: 4 } };
   this.ratingFilterCriteriaMap["five"] = { op: "$eq", value: { RATING: 5 } };
   
-  this.districtFilterCriteriaMap["All"] ={ op: "$eq", value: { District: 'Thiruvananthapuram' } };
-  this.districtFilterCriteriaMap["Thiruvananthapuram"] ={ op: "$eq", value: { District: 'Thiruvananthapuram' } };
-  this.districtFilterCriteriaMap["Kollam"] ={ op: "$eq", value: { District: 'Kollam' } };
-  this.districtFilterCriteriaMap["alp"] ={ op: "$eq", value: { District: 'alp' } };
-  this.districtFilterCriteriaMap["pta"] ={ op: "$eq", value: { District: 'pta' } };
-  this.districtFilterCriteriaMap["ktm"] ={ op: "$eq", value: { District: 'ktm' } };
-  this.districtFilterCriteriaMap["idk"] ={ op: "$eq", value: { District: 'idk' } };
-  this.districtFilterCriteriaMap["ekm"] ={ op: "$eq", value: { District: 'ekm' } };
-  this.districtFilterCriteriaMap["tsr"] ={ op: "$eq", value: { District: 'tsr' } };
-  this.districtFilterCriteriaMap["pkd"] ={ op: "$eq", value: { District: 'pkd' } };
-  this.districtFilterCriteriaMap["mlp"] ={ op: "$eq", value: { District: 'mlp' } };
-  this.districtFilterCriteriaMap["kkd"] ={ op: "$eq", value: { District: 'kkd' } };
-  this.districtFilterCriteriaMap["wnd"] ={ op: "$eq", value: { District: 'wnd' } };
-  this.districtFilterCriteriaMap["knr"] ={ op: "$eq", value: { District: 'knr' } };
-  this.districtFilterCriteriaMap["kgd"] ={ op: "$eq", value: { District: 'kgd' } };
+  this.districtFilterCriteriaMap["All"] ={ op: "$eq", value: { district: 'Thiruvananthapuram' } };
+  this.districtFilterCriteriaMap["Thiruvananthapuram"] ={ op: "$eq", value: { district: 'Thiruvananthapuram' } };
+  this.districtFilterCriteriaMap["Kollam"] ={ op: "$eq", value: { district: 'Kollam' } };
+  this.districtFilterCriteriaMap["alp"] ={ op: "$eq", value: { district: 'alp' } };
+  this.districtFilterCriteriaMap["pta"] ={ op: "$eq", value: { district: 'pta' } };
+  this.districtFilterCriteriaMap["ktm"] ={ op: "$eq", value: { district: 'ktm' } };
+  this.districtFilterCriteriaMap["idk"] ={ op: "$eq", value: { district: 'idk' } };
+  this.districtFilterCriteriaMap["ekm"] ={ op: "$eq", value: { district: 'ekm' } };
+  this.districtFilterCriteriaMap["tsr"] ={ op: "$eq", value: { district: 'tsr' } };
+  this.districtFilterCriteriaMap["pkd"] ={ op: "$eq", value: { district: 'pkd' } };
+  this.districtFilterCriteriaMap["mlp"] ={ op: "$eq", value: { district: 'mlp' } };
+  this.districtFilterCriteriaMap["kkd"] ={ op: "$eq", value: { district: 'kkd' } };
+  this.districtFilterCriteriaMap["wnd"] ={ op: "$eq", value: { district: 'wnd' } };
+  this.districtFilterCriteriaMap["knr"] ={ op: "$eq", value: { district: 'knr' } };
+  this.districtFilterCriteriaMap["kgd"] ={ op: "$eq", value: { district: 'kgd' } };
   
   this.dataProvider = ko.observable();
   this.baseDataProvider = ko.observable();
@@ -396,7 +396,10 @@ constructor(context: Composite.ViewModelContext<Composite.PropertiesType>) {
   let self = this;
     Tabletop.init( {
     key: 'https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/pubhtml',
-    simpleSheet: false }
+    simpleSheet: false,
+    prettyColumnNames: false,
+    wanted: ['Schools1', 'Courses', 'SecondLanguage'],
+   }
   ).then(function(data, tabletop) { 
     self.baseDataProvider = new ArrayDataProvider(data.Schools1.elements, {
         keyAttributes: "ID",
@@ -536,7 +539,7 @@ private _getTitleContext(node: ojPopup) {
    */
   connected(): void {
     AccUtils.announce("Dashboard page loaded.");
-    document.title = "Admissions";
+    document.title = "School Finder";
     // implement further logic if needed
   }
 

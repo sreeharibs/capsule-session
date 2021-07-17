@@ -95,13 +95,14 @@ module.exports = function () {
  * It runs only when build in release mode.
  * The task mirrors the configuration in this link https://github.com/gruntjs/grunt-contrib-requirejs
  */
-    // requireJs: {
-    //   baseUrl: 'path to the js directory in staging area',
-    //   name: 'the main.js file name',
-    //   mainConfigFile: `the main configuration file`,
-    //   optimize: 'option for optimize',
-    //   out: 'output file path'
-    // },
+   //  requireJs: {
+   //    baseUrl: './web/js',
+   //    name: 'main',
+   //    //mainConfigFile: 'scripts/config/build.js',
+   //    //optimize: 'option for optimize',
+   //    out: 'public/js/main_opt.js'
+   //  },
+
 
 /**
  * # sass

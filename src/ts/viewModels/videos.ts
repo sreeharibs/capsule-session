@@ -54,7 +54,7 @@ class CustomersViewModel {
       const filter = {
         op: "$co",
         value: {
-          Tags: value,
+          tags: value,
         },
       };
       this.dataProvider(
@@ -77,7 +77,10 @@ class CustomersViewModel {
     let self = this;
       Tabletop.init( {
       key: 'https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/pubhtml',
-      simpleSheet: false }
+      simpleSheet: false,
+      prettyColumnNames: false,
+      singleton: true,
+      wanted: ['Videos'], }
     ).then(function(data, tabletop) { 
       self.baseDataProvider = new ArrayDataProvider(data.Videos.elements, {
           keyAttributes: "ID",
