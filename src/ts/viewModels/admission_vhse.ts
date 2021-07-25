@@ -35,7 +35,7 @@ import 'ojs/ojpopup';
 import { ojInputText } from "@oracle/oraclejet/dist/types/ojinputtext";
 //tooltip import end
 
-class DashboardViewModel {
+class VhseAdmissionViewModel {
 
   private page: string;
   componentType: ko.Observable<string>;
@@ -398,20 +398,20 @@ constructor(context: Composite.ViewModelContext<Composite.PropertiesType>) {
     key: 'https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/pubhtml',
     simpleSheet: false,
     prettyColumnNames: false,
-    wanted: ['Schools1', 'Courses', 'SecondLanguage'],
+    wanted: ['SchoolsVhse', 'CoursesVhse', 'SecondLanguageVhse'],
    }
   ).then(function(data, tabletop) { 
-    self.baseDataProvider = new ArrayDataProvider(data.Schools1.elements, {
+    self.baseDataProvider = new ArrayDataProvider(data.SchoolsVhse.elements, {
         keyAttributes: "ID",
       });
 
-      self.courseDP = new ArrayDataProvider(data.Courses.elements, {
+      self.courseDP = new ArrayDataProvider(data.CoursesVhse.elements, {
         keyAttributes: "label",
       });
       self.courseDataProvider(
         new ListDataProviderView(self.courseDP)
       );
-      self.langDP = new ArrayDataProvider(data.SecondLanguage.elements, {
+      self.langDP = new ArrayDataProvider(data.SecondLanguageVhse.elements, {
         keyAttributes: "label",
       });
       self.langDataProvider(
@@ -462,17 +462,17 @@ private _handleOpen = (event: Event) => {
   let popup = document.getElementById(tooltipPopupId) as ojPopup;
 
   if (titleContext) {
-    let oldNode = this.data(popup, DashboardViewModel._CONTEXT_NODE, null);
+    let oldNode = this.data(popup, VhseAdmissionViewModel._CONTEXT_NODE, null);
     let titleContextCopy = titleContext;
     if (oldNode && oldNode === titleContext.node) { return; }
 
     setTimeout(() => {
-      this.data(popup, DashboardViewModel._CONTEXT_NODE, titleContextCopy.node);
+      this.data(popup, VhseAdmissionViewModel._CONTEXT_NODE, titleContextCopy.node);
       let content = this._getContentNode(popup) as Element;
       content.innerHTML = titleContextCopy.title;
       popup.open(target as HTMLElement);
     },
-    DashboardViewModel._OPEN_DELAY);
+    VhseAdmissionViewModel._OPEN_DELAY);
   }
 };
 
@@ -482,7 +482,7 @@ private _getContentNode(popup: HTMLElement) {
 };
 
 private _handleSetTimeout() {
-  this._timeoutId = window.setTimeout(this._handleClose, DashboardViewModel._AUTO_TIMEOUT);
+  this._timeoutId = window.setTimeout(this._handleClose, VhseAdmissionViewModel._AUTO_TIMEOUT);
 };
 
 private _handleClearTimeout() {
@@ -493,7 +493,7 @@ private _handleClearTimeout() {
 
 private _handleCleanup(event: CustomEvent) {
   let popup = event.target as ojPopup;
-  this.data(popup, DashboardViewModel._CONTEXT_NODE, null);
+  this.data(popup, VhseAdmissionViewModel._CONTEXT_NODE, null);
 };
 
 private _handleClose = () => {
@@ -539,7 +539,7 @@ private _getTitleContext(node: ojPopup) {
    */
   connected(): void {
     AccUtils.announce("Dashboard page loaded.");
-    document.title = "DHSE School Finder";
+    document.title = "VHSE School Finder";
     // implement further logic if needed
   }
 
@@ -559,4 +559,4 @@ private _getTitleContext(node: ojPopup) {
   }
 }
 
-export = DashboardViewModel;
+export = VhseAdmissionViewModel;
