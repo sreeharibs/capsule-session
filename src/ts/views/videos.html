@@ -15,14 +15,14 @@
       <oj-option value="Chemistry">Chemistry</oj-option>
       <oj-option value="Biology">Biology</oj-option>
     </oj-buttonset-one>
-    
+
     <oj-waterfall-layout id="waterfall" aria-label="dashboard" class="demo-waterfall" data="[[dataProvider]]">
       <template slot="itemTemplate" data-oj-as="item">
           <oj-action-card class="oj-flex-item">
             </demo-profile-card-layout>
             <div class="demo-profile-card-layout-container">
               <div class="demo-profile-card-layout-inner" data-bind="attr: { 'data-link': item.data.link }" on-click="[[clickListener]]">
-                <oj-avatar style="height: 115px; width: 196px;" class="demo-profile-card-layout-emp-image oj-complete" role="img" size="xxl" initials='[[item.data.tags]]' src="[[item.data.thumbnail]]" :aria-label="[['Avatar of ' + item.data.name]]"></oj-avatar>
+                <oj-avatar class="demo-profile-card-layout-emp-image oj-complete" role="img" size="xxl" initials='[[item.data.tags]]' src="[[item.data.thumbnail]]" :aria-label="[['Avatar of ' + item.data.name]]"></oj-avatar>
                 <div class="oj-text-primary-color demo-profile-card-layout-emp-name oj-typography-subheading-xs">
                   <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
                 </div>
