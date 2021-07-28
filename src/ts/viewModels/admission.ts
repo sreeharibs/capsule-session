@@ -539,7 +539,7 @@ private _getTitleContext(node: ojPopup) {
    */
   connected(): void {
     AccUtils.announce("Dashboard page loaded.");
-    document.title = "DHSE School Finder";
+    document.title = "HSE School Finder";
     // implement further logic if needed
   }
 
