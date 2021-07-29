@@ -3,20 +3,39 @@
  Licensed under The Universal Permissive License (UPL), Version 1.0
  as shown at https://oss.oracle.com/licenses/upl/
  -->
-<div class="oj-hybrid-padding">
-  <div class="demo-about-top-bg">
-    <!-- <div class="demo-circle-logo-container" style="margin:auto;">
-      <div class="demo-circle-logo"></div>
-    </div> -->
-
-    <h2 class="demo-profile-name" style="color:whitesmoke; padding-bottom: 5px;">Capsule <span style="font-weight:400;">Session</span></h2>
-  </div>
+<!-- <div class="oj-hybrid-padding">
+  <h3>Capsule Session</h3>
   <div>
-    <br/>
-    FixItFast provide key capabilities for your technicians in the field to help solve your customer incidents faster. This application includes incident management, mapping of incident locations, activity updates for incidents, ability to access customer profiles and much more. To change the content of this section, you will make edits to the incidents.html file located in the /ts/views folder.
+  </div> -->
+
+  <div id="waterfall-container">
+    <!-- <oj-buttonset-one id="filters" on-value-changed="[[handleFilterChanged]]" value="[[filters]]" aria-label="Choose to show employees or departments or both." class="oj-buttonset-width-auto">
+      <oj-option value="all">Show All</oj-option>
+      <oj-option value="Physics">Physics</oj-option>
+      <oj-option value="Chemistry">Chemistry</oj-option>
+      <oj-option value="Biology">Biology</oj-option>
+    </oj-buttonset-one> -->
+
+    <oj-waterfall-layout id="waterfall" aria-label="dashboard" class="demo-waterfall" data="[[dataProvider]]">
+      <template slot="itemTemplate" data-oj-as="item">
+          <oj-action-card class="oj-flex-item">
+            </demo-profile-card-layout>
+            <div class="demo-profile-card-layout-container">
+              <div class="demo-profile-card-layout-inner" data-bind="attr: { 'data-link': item.data.link }" on-click="[[clickListener]]">
+                <oj-avatar class="demo-profile-card-layout-emp-image oj-complete" role="img" size="xxl" initials='[[item.data.tags]]' src="[[item.data.thumbnail]]" :aria-label="[['Avatar of ' + item.data.name]]"></oj-avatar>
+                <div class="oj-text-primary-color demo-profile-card-layout-emp-name oj-typography-subheading-xs">
+                  <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
+                </div>
+                <div class="demo-profile-card-layout-emp-spacer"></div>
+                <div class="oj-text-tertiary-color demo-profile-card-layout-emp-title oj-typography-body-md">
+                  <oj-bind-text value="[[item.data.subtitle]]"></oj-bind-text>
+                </div>
+              </div>
+            </div>
+          </oj-action-card>
+      </template>
+    </oj-waterfall-layout>
   </div>
-  <br clear="all"/>
-  <div class="">
-    <div id="title" class="oj-text-sm">Version 10.1.0</div>
-  </div>
+
+
 </div>

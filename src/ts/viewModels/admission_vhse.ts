@@ -411,9 +411,7 @@ constructor(context: Composite.ViewModelContext<Composite.PropertiesType>) {
       self.courseDataProvider(
         new ListDataProviderView(self.courseDP)
       );
-      self.langDP = new ArrayDataProvider(data.SecondLanguageVhse.elements, {
-        keyAttributes: "label",
-      });
+      
       self.langDataProvider(
         new ListDataProviderView(self.langDP)
       );

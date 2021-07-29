@@ -9,12 +9,34 @@
   </div>
 
   <div id="waterfall-container">
-    <oj-buttonset-one id="filters" on-value-changed="[[handleFilterChanged]]" value="[[filters]]" aria-label="Choose to show employees or departments or both." class="oj-buttonset-width-auto">
+    <!-- <oj-buttonset-one id="filters"  on-value-changed="[[handleFilterChanged]]" value="[[filters]]" class="oj-buttonset-width-auto oj-button-sm">
       <oj-option value="all">Show All</oj-option>
-      <oj-option value="Physics">Physics</oj-option>
-      <oj-option value="Chemistry">Chemistry</oj-option>
-      <oj-option value="Biology">Biology</oj-option>
-    </oj-buttonset-one>
+      <oj-option value="chapter1">Chapter1</oj-option>
+      <oj-option value="chapter2">Chapter2</oj-option>
+      <oj-option value="chapter3">Chapter3</oj-option>
+      <oj-option value="chapter4">Chapter4</oj-option>
+      <oj-option value="chapter5">Chapter5</oj-option>
+      <oj-option value="chapter6">Chapter6</oj-option>
+      <oj-option value="chapter7">Chapter7</oj-option>
+      <oj-option value="specials">Specials</oj-option>
+      <oj-option value="other">Others</oj-option>
+    </oj-buttonset-one> -->
+
+    <oj-bind-if test="[[subject()]]">
+
+      <oj-buttonset-one id="filters" on-value-changed="[[handleFilterChanged]]" value="[[filters]]" aria-label="Choose to show employees or departments or both." class="oj-buttonset-width-auto oj-button-sm">
+        <oj-option value="all">All</oj-option>
+        <oj-option value="chapter1">1</oj-option>
+        <oj-option value="chapter2">2</oj-option>
+        <oj-option value="chapter3">3</oj-option>
+        <oj-option value="chapter4">4</oj-option>
+        <oj-option value="chapter5">5</oj-option>
+        <oj-option value="chapter6">6</oj-option>
+        <oj-option value="chapter7">7</oj-option>
+        <oj-option value="specials"><span class="oj-ux-ico-star half"></span></oj-option>
+      </oj-buttonset-one>
+
+  </oj-bind-if>
 
     <oj-waterfall-layout id="waterfall" aria-label="dashboard" class="demo-waterfall" data="[[dataProvider]]">
       <template slot="itemTemplate" data-oj-as="item">

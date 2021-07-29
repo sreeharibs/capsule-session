@@ -29,10 +29,15 @@ interface Data {
   initials?: string;
 }
 
-class CustomersViewModel {
+class SSLCPhysicsViewModel {
+
+  buttonValue = ko.observable("off");
 
   baseDataProvider;
   dataProvider = ko.observable();
+
+  private standard;
+  subject = ko.observable();
 
   readonly filters = "all";
 
@@ -49,19 +54,39 @@ class CustomersViewModel {
     const value = event.detail.value;
 
     if (value === "all") {
-      this.dataProvider(this.baseDataProvider);
+      if(!this.subject()) {
+        this.dataProvider(this.baseDataProvider);
+      }else{
+        const filter = {
+          op: "$eq",
+          value: {
+            subject: this.subject(), standard: this.standard 
+          },
+        };
+        this.dataProvider(
+          new ListDataProviderView(this.baseDataProvider, {
+            filterCriterion: filter as DataFilter.Filter<Data>,
+          })
+        );
+      }
+
     } else {
-      const filter = {
-        op: "$co",
-        value: {
-          tags: value,
-        },
-      };
-      this.dataProvider(
-        new ListDataProviderView(this.baseDataProvider, {
-          filterCriterion: filter as DataFilter.Filter<Data>,
-        })
-      );
+      if(!this.subject()) {
+        this.dataProvider(this.baseDataProvider);
+      }else{
+        const filter = {
+          op: "$eq",
+          value: {
+            tags: value,subject: this.subject(), standard: this.standard 
+          },
+        };
+        this.dataProvider(
+          new ListDataProviderView(this.baseDataProvider, {
+            filterCriterion: filter as DataFilter.Filter<Data>,
+          })
+        );
+      }
+
     }
   };
 
@@ -72,9 +97,24 @@ class CustomersViewModel {
     this.baseDataProvider = new ArrayDataProvider(JSON.parse("[]"), {
       keyAttributes: "ID",
     });
+
+    const search = document.location.search
+        ? document.location.search.substring(1)
+        : "";
+    var decodedSearch = decodeURIComponent(search);
+    var decodedParamsArray = decodedSearch.split(";");
+    let self = this;
+    decodedParamsArray.forEach(function(param){
+       if(param.startsWith("class")){
+          self.standard = param.split("=")[1];
+       }
+       if(param.startsWith("subject")){
+        self.subject = ko.observable(param.split("=")[1]);
+     }
+    });
     
     this.dataProvider = ko.observable(this.baseDataProvider);
-    let self = this;
+    
       Tabletop.init( {
       key: 'https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/pubhtml',
       simpleSheet: false,
@@ -88,6 +128,22 @@ class CustomersViewModel {
         self.dataProvider(
           new ListDataProviderView(self.baseDataProvider)
         );
+        if(!self.subject()) {
+          self.dataProvider(self.baseDataProvider);
+        }else{
+          const filter = {
+            op: "$eq",
+            value: {
+              subject: self.subject(), standard: self.standard 
+            },
+          };
+          self.dataProvider(
+            new ListDataProviderView(self.baseDataProvider, {
+              filterCriterion: filter as DataFilter.Filter<Data>,
+            })
+          );
+        }
+
     })
 
   }
@@ -104,6 +160,7 @@ class CustomersViewModel {
     AccUtils.announce("Customers page loaded.");
     document.title = "Capsule Session";
     // implement further logic if needed
+    
   }
 
   /**
@@ -122,4 +179,4 @@ class CustomersViewModel {
   }
 }
 
-export = CustomersViewModel;
+export = SSLCPhysicsViewModel;
