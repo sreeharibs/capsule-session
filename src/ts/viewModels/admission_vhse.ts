@@ -220,7 +220,7 @@ handleCourseFilterChanged = (
   const criteria = new Array();
     if(event.detail.value && event.detail.value != "All") {
         
-        criteria.push({ op: "$co", value: { coursetooltip: event.detail.value } });
+        criteria.push({ op: "$co", value: { courses: event.detail.value } });
         console.log(event.detail.value);
 
     }
@@ -406,7 +406,7 @@ constructor(context: Composite.ViewModelContext<Composite.PropertiesType>) {
       });
 
       self.courseDP = new ArrayDataProvider(data.CoursesVhse.elements, {
-        keyAttributes: "label",
+        keyAttributes: "value",
       });
       self.courseDataProvider(
         new ListDataProviderView(self.courseDP)
