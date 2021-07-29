@@ -63,13 +63,13 @@ class RootViewModel {
 
     const navData = [
       { path: "", redirect: "home" },
-      // { path: "home", detail: { label: "Home", iconClass: "oj-ux-ico-home" } },
+      { path: "home", detail: { label: "Home", iconClass: "oj-ux-ico-home" } },
       { path: "admission", detail: { label: "Plus One Schools", iconClass: "oj-ux-ico-school" } },
       { path: "admission_vhse", detail: { label: "VHSE Schools", iconClass: "oj-ux-ico-school" } },
-      { path: "home", detail: { label: "Home", iconClass: "oj-ux-ico-home" } },
       { path: "videos", detail: { label: "Videos", iconClass: "oj-ux-ico-youtube" } },
       //{ path: "about", detail: { label: "About", iconClass: "oj-ux-ico-information-s" } }
     ];
+    
     // router setup
     const router = new CoreRouter(navData, {
       urlAdapter: new UrlParamAdapter()
