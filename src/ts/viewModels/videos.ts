@@ -14,7 +14,7 @@ import "ojs/ojbutton";
 import { ojButtonsetOne } from "ojs/ojbutton";
 import "ojs/ojavatar";
 
-import Tabletop = require("tabletop");
+import PapaParse = require("papaparse");
 import $ = require("jquery");
 
 interface Data {
@@ -115,15 +115,45 @@ class SSLCPhysicsViewModel {
     
     this.dataProvider = ko.observable(this.baseDataProvider);
     
-      Tabletop.init( {
-      key: 'https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/pubhtml',
-      simpleSheet: false,
-      prettyColumnNames: false,
-      singleton: true,
-      wanted: ['Videos'], }
-    ).then(function(data, tabletop) { 
-      self.baseDataProvider = new ArrayDataProvider(data.Videos.elements, {
-          keyAttributes: "ID",
+  //     Tabletop.init( {
+  //     key: 'https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/pubhtml',
+  //     simpleSheet: false,
+  //     prettyColumnNames: false,
+  //     singleton: true,
+  //     wanted: ['Videos'], }
+  //   ).then(function(data, tabletop) { 
+  //     self.baseDataProvider = new ArrayDataProvider(data.Videos.elements, {
+  //         keyAttributes: "ID",
+  //       });
+  //       self.dataProvider(
+  //         new ListDataProviderView(self.baseDataProvider)
+  //       );
+  //       if(!self.subject()) {
+  //         self.dataProvider(self.baseDataProvider);
+  //       }else{
+  //         const filter = {
+  //           op: "$eq",
+  //           value: {
+  //             subject: self.subject(), standard: self.standard 
+  //           },
+  //         };
+  //         self.dataProvider(
+  //           new ListDataProviderView(self.baseDataProvider, {
+  //             filterCriterion: filter as DataFilter.Filter<Data>,
+  //           })
+  //         );
+  //       }
+
+  //   })
+
+  // }
+
+  PapaParse.parse('https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/gviz/tq?tqx=out:csv&sheet=Videos', {
+    download: true,
+    header: true,
+    complete: function(results) {
+      self.baseDataProvider = new ArrayDataProvider(results.data, {
+        keyAttributes: "ID",
         });
         self.dataProvider(
           new ListDataProviderView(self.baseDataProvider)
@@ -132,21 +162,21 @@ class SSLCPhysicsViewModel {
           self.dataProvider(self.baseDataProvider);
         }else{
           const filter = {
-            op: "$eq",
-            value: {
-              subject: self.subject(), standard: self.standard 
-            },
-          };
-          self.dataProvider(
-            new ListDataProviderView(self.baseDataProvider, {
-              filterCriterion: filter as DataFilter.Filter<Data>,
-            })
-          );
-        }
+          op: "$eq",
+          value: {
+            subject: self.subject(), standard: self.standard 
+          },
+        };
+        self.dataProvider(
+          new ListDataProviderView(self.baseDataProvider, {
+            filterCriterion: filter as DataFilter.Filter<Data>,
+          })
+        );
+      }
+    }
+  });
 
-    })
-
-  }
+}
 
   /**
    * Optional ViewModel method invoked after the View is inserted into the

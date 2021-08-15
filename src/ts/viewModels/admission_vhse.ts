@@ -8,7 +8,7 @@ import "ojs/ojknockout";
 import "ojs/ojtable";
 import $ = require("jquery");
 import "ojs/ojselectsingle";
-import Tabletop = require("tabletop");
+import PapaParse = require("papaparse");
 
 import { whenDocumentReady } from "ojs/ojbootstrap";
 import ArrayDataProvider = require("ojs/ojarraydataprovider");
@@ -394,31 +394,71 @@ constructor(context: Composite.ViewModelContext<Composite.PropertiesType>) {
   this.courseDataProvider = ko.observable(this.courseDP);
   this.langDataProvider = ko.observable(this.langDP);
   let self = this;
-    Tabletop.init( {
-    key: 'https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/pubhtml',
-    simpleSheet: false,
-    prettyColumnNames: false,
-    wanted: ['SchoolsVhse', 'CoursesVhse', 'SecondLanguageVhse'],
-   }
-  ).then(function(data, tabletop) { 
-    self.baseDataProvider = new ArrayDataProvider(data.SchoolsVhse.elements, {
-        keyAttributes: "ID",
-      });
+  //   Tabletop.init( {
+  //   key: 'https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/pubhtml',
+  //   simpleSheet: false,
+  //   prettyColumnNames: false,
+  //   wanted: ['SchoolsVhse', 'CoursesVhse', 'SecondLanguageVhse'],
+  //  }
+  // ).then(function(data, tabletop) { 
+  //   self.baseDataProvider = new ArrayDataProvider(data.SchoolsVhse.elements, {
+  //       keyAttributes: "ID",
+  //     });
 
-      self.courseDP = new ArrayDataProvider(data.CoursesVhse.elements, {
-        keyAttributes: "value",
+  //     self.courseDP = new ArrayDataProvider(data.CoursesVhse.elements, {
+  //       keyAttributes: "value",
+  //     });
+  //     self.courseDataProvider(
+  //       new ListDataProviderView(self.courseDP)
+  //     );
+      
+  //     self.langDataProvider(
+  //       new ListDataProviderView(self.langDP)
+  //     );
+  //     self.dataProvider(
+  //       new ListDataProviderView(self.baseDataProvider)
+  //     );
+  // })
+
+  PapaParse.parse('https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/gviz/tq?tqx=out:csv&sheet=SchoolsVhse', {
+          download: true,
+          header: true,
+          complete: function(results) {
+            console.log(results.data);
+            self.baseDataProvider = new ArrayDataProvider(results.data, {
+              keyAttributes: "ID",
+            });
+            self.dataProvider(
+              new ListDataProviderView(self.baseDataProvider)
+            );
+          }
+  });
+
+  PapaParse.parse('https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/gviz/tq?tqx=out:csv&sheet=CoursesVhse', {
+    download: true,
+    header: true,
+    complete: function(results) {
+      self.courseDP = new ArrayDataProvider(results.data, {
+        keyAttributes: "label",
       });
       self.courseDataProvider(
         new ListDataProviderView(self.courseDP)
       );
-      
+    }
+  });
+
+    PapaParse.parse('https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/gviz/tq?tqx=out:csv&sheet=SecondLanguageVhse', {
+      download: true,
+      header: true,
+      complete: function(results) {
+        self.langDP = new ArrayDataProvider(results.data, {
+        keyAttributes: "label",
+      });
       self.langDataProvider(
         new ListDataProviderView(self.langDP)
       );
-      self.dataProvider(
-        new ListDataProviderView(self.baseDataProvider)
-      );
-  })
+      }
+    });
 
 //   this.baseDataProvider = new ArrayDataProvider(JSON.parse(jsonDataStr), {
 //     keyAttributes: "ID",

@@ -8,7 +8,7 @@ import "ojs/ojknockout";
 import "ojs/ojtable";
 import $ = require("jquery");
 import "ojs/ojselectsingle";
-import Tabletop = require("tabletop");
+import PapaParse = require("papaparse");
 
 import { whenDocumentReady } from "ojs/ojbootstrap";
 import ArrayDataProvider = require("ojs/ojarraydataprovider");
@@ -394,33 +394,73 @@ constructor(context: Composite.ViewModelContext<Composite.PropertiesType>) {
   this.courseDataProvider = ko.observable(this.courseDP);
   this.langDataProvider = ko.observable(this.langDP);
   let self = this;
-    Tabletop.init( {
-    key: 'https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/pubhtml',
-    simpleSheet: false,
-    prettyColumnNames: false,
-    wanted: ['Schools1', 'Courses', 'SecondLanguage'],
-   }
-  ).then(function(data, tabletop) { 
-    self.baseDataProvider = new ArrayDataProvider(data.Schools1.elements, {
-        keyAttributes: "ID",
-      });
+  //   Tabletop.init( {
+  //   key: 'https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/pubhtml',
+  //   simpleSheet: false,
+  //   prettyColumnNames: false,
+  //   wanted: ['Schools1', 'Courses', 'SecondLanguage'],
+  //  }
+  // ).then(function(data, tabletop) { 
+  //   self.baseDataProvider = new ArrayDataProvider(data.Schools1.elements, {
+  //       keyAttributes: "ID",
+  //     });
 
-      self.courseDP = new ArrayDataProvider(data.Courses.elements, {
+  //     self.courseDP = new ArrayDataProvider(data.Courses.elements, {
+  //       keyAttributes: "label",
+  //     });
+  //     self.courseDataProvider(
+  //       new ListDataProviderView(self.courseDP)
+  //     );
+  //     self.langDP = new ArrayDataProvider(data.SecondLanguage.elements, {
+  //       keyAttributes: "label",
+  //     });
+  //     self.langDataProvider(
+  //       new ListDataProviderView(self.langDP)
+  //     );
+  //     self.dataProvider(
+  //       new ListDataProviderView(self.baseDataProvider)
+  //     );
+  // })
+
+  PapaParse.parse('https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/gviz/tq?tqx=out:csv&sheet=Schools1', {
+          download: true,
+          header: true,
+          complete: function(results) {
+            console.log(results.data);
+            self.baseDataProvider = new ArrayDataProvider(results.data, {
+              keyAttributes: "ID",
+            });
+            self.dataProvider(
+              new ListDataProviderView(self.baseDataProvider)
+            );
+          }
+  });
+
+  PapaParse.parse('https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/gviz/tq?tqx=out:csv&sheet=Courses', {
+    download: true,
+    header: true,
+    complete: function(results) {
+      self.courseDP = new ArrayDataProvider(results.data, {
         keyAttributes: "label",
       });
       self.courseDataProvider(
         new ListDataProviderView(self.courseDP)
       );
-      self.langDP = new ArrayDataProvider(data.SecondLanguage.elements, {
+    }
+  });
+
+    PapaParse.parse('https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/gviz/tq?tqx=out:csv&sheet=SecondLanguage', {
+      download: true,
+      header: true,
+      complete: function(results) {
+        self.langDP = new ArrayDataProvider(results.data, {
         keyAttributes: "label",
       });
       self.langDataProvider(
         new ListDataProviderView(self.langDP)
       );
-      self.dataProvider(
-        new ListDataProviderView(self.baseDataProvider)
-      );
-  })
+      }
+    });
 
 //   this.baseDataProvider = new ArrayDataProvider(JSON.parse(jsonDataStr), {
 //     keyAttributes: "ID",

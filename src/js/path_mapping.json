@@ -43,6 +43,21 @@
       }
     },
 
+    "papaparse": {
+      "cdn": "3rdparty",
+      "cwd": "node_modules/papaparse",
+      "debug": {
+        "src": ["*.js"],
+        "path": "libs/papaparse/papaparse.js",
+        "cdnPath": "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"
+      },
+      "release": {
+        "src": ["*.js"],
+        "path": "libs/papaparse/papaparse.min.js",
+        "cdnPath": "https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"
+      }
+    },
+
     "jquery": {
       "cdn": "3rdparty",
       "cwd": "node_modules/jquery/dist",

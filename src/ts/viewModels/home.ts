@@ -14,7 +14,7 @@ import "ojs/ojbutton";
 import { ojButtonsetOne } from "ojs/ojbutton";
 import "ojs/ojavatar";
 
-import Tabletop = require("tabletop");
+import PapaParse = require("papaparse");
 import $ = require("jquery");
 import CoreRouter = require("@oracle/oraclejet/dist/types/ojcorerouter");
 
@@ -91,20 +91,34 @@ class CustomersViewModel {
     
     this.dataProvider = ko.observable(this.baseDataProvider);
     let self = this;
-      Tabletop.init( {
-      key: 'https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/pubhtml',
-      simpleSheet: false,
-      prettyColumnNames: false,
-      singleton: true,
-      wanted: ['Home'], }
-    ).then(function(data, tabletop) { 
-      self.baseDataProvider = new ArrayDataProvider(data.Home.elements, {
+    //   Tabletop.init( {
+    //   key: 'https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/pubhtml',
+    //   simpleSheet: false,
+    //   prettyColumnNames: false,
+    //   singleton: true,
+    //   wanted: ['Home'], }
+    // ).then(function(data, tabletop) { 
+    //   self.baseDataProvider = new ArrayDataProvider(data.Home.elements, {
+    //       keyAttributes: "ID",
+    //     });
+    //     self.dataProvider(
+    //       new ListDataProviderView(self.baseDataProvider)
+    //     );
+    // })
+
+    PapaParse.parse('https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/gviz/tq?tqx=out:csv&sheet=Home', {
+      download: true,
+      header: true,
+      complete: function(results) {
+        console.log(results.data);
+        self.baseDataProvider = new ArrayDataProvider(results.data, {
           keyAttributes: "ID",
         });
         self.dataProvider(
           new ListDataProviderView(self.baseDataProvider)
         );
-    })
+      }
+});
 
   }
 
