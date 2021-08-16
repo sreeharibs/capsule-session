@@ -439,7 +439,7 @@ constructor(context: Composite.ViewModelContext<Composite.PropertiesType>) {
     header: true,
     complete: function(results) {
       self.courseDP = new ArrayDataProvider(results.data, {
-        keyAttributes: "label",
+        keyAttributes: "value",
       });
       self.courseDataProvider(
         new ListDataProviderView(self.courseDP)
@@ -447,18 +447,18 @@ constructor(context: Composite.ViewModelContext<Composite.PropertiesType>) {
     }
   });
 
-    PapaParse.parse('https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/gviz/tq?tqx=out:csv&sheet=SecondLanguageVhse', {
-      download: true,
-      header: true,
-      complete: function(results) {
-        self.langDP = new ArrayDataProvider(results.data, {
-        keyAttributes: "label",
-      });
-      self.langDataProvider(
-        new ListDataProviderView(self.langDP)
-      );
-      }
-    });
+    // PapaParse.parse('https://docs.google.com/spreadsheets/d/1H3MXhBiqV0V-4HCQGymJSKH4O5ODpJPLnjzLouCfqzw/gviz/tq?tqx=out:csv&sheet=SecondLanguageVhse', {
+    //   download: true,
+    //   header: true,
+    //   complete: function(results) {
+    //     self.langDP = new ArrayDataProvider(results.data, {
+    //     keyAttributes: "label",
+    //   });
+    //   self.langDataProvider(
+    //     new ListDataProviderView(self.langDP)
+    //   );
+    //   }
+    // });
 
 //   this.baseDataProvider = new ArrayDataProvider(JSON.parse(jsonDataStr), {
 //     keyAttributes: "ID",
