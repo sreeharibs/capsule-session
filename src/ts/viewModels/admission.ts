@@ -179,11 +179,22 @@ handleCodeFilterChanged = (
   //@ts-ignore
 event: ojInputText.valueChanged<OptionData["value"], OptionData>
 ) => { 
-const criteria = new Array();
+// const criteria = new Array();
+// if(event.detail.value ) {
+//   criteria.push({ op: "$eq", value: { schoolcode: event.detail.value } });
+// }
+// this.codeCriteria = criteria;
+const schoolNameCriteria = new Array();
+
 if(event.detail.value ) {
-  criteria.push({ op: "$eq", value: { schoolcode: event.detail.value } });
+  if(event.detail.value.match(/^-?\d+$/)){
+    schoolNameCriteria.push({ op: "$eq", value: { schoolcode: event.detail.value } });
+  } else {
+    schoolNameCriteria.push({ op: "$co", value: { namecode: event.detail.value.toLowerCase  () } });
+  }
 }
-this.codeCriteria = criteria;
+this.nameCriteria = schoolNameCriteria;
+
 this._handleFilterChanged();
 };
 
