@@ -10,8 +10,12 @@
   </div>
 <div class="oj-hybrid-padding">
   <h3>VHSE School Finder</h3>
-  <p>Watch VHSE Course detailing video by Capsule Session - <a href="https://www.youtube.com/watch?v=ZagEiddfbxw" target="_blank"> Click here </a></p>
+  <p><a href="https://www.youtube.com/watch?v=ZagEiddfbxw" target="_blank"> Specialities of VHSE Group A/B/C/D with 2021 updates (video) </a>
+    <br/><a href="https://youtube.com/shorts/eN_4fQlushM" target="_blank">How to use this School Finder ( video )</a></p>
   <small><i>(List of all schools are given below. You may filter the results using the search fields. All fields are optional )</i></small>
+  <br/><small>Disclaimer: Please cross verify the details with your prospectus before you proceed.</small>
+
+
   <div>
   </div>
   <div id="root">
@@ -21,7 +25,7 @@
   
         
   
-        <oj-label id="dist_filter_lbl">District</oj-label>
+        <oj-label id="dist_filter_lbl">District  (optional) </oj-label>
 
         <oj-select-single id="author_filter"
               label-edge="inside"
@@ -30,7 +34,7 @@
               on-value-changed="[[handleDistrictFilterChanged]]">
             </oj-select-single>
 
-            <oj-label id="dist_filter_lbl">Course</oj-label>
+            <oj-label id="dist_filter_lbl">Course (optional) </oj-label>
             <oj-select-single id="course_filter"
               label-edge="inside"
               class="oj-form-control-max-width-md"
@@ -39,7 +43,7 @@
             </oj-select-single>
 
 
-            <oj-label id="lang_filter_lbl">School Code or Name</oj-label>
+            <oj-label id="lang_filter_lbl">School Code or School Name (optional) </oj-label>
             <oj-input-text id="school_code_filter" on-value-changed="[[handleCodeFilterChanged]]"></oj-input-text>
             
             <!-- <oj-label id="lang_filter_lbl">School Name</oj-label>
@@ -94,6 +98,9 @@
                 </div>
               </oj-list-item-layout>
             </li>
+            <template slot="noData">
+              <ul data-oj-internal="" aria-label="list with external sort and filter controls" id="ui-id-1027" class="oj-listview-element oj-component-initnode" data-oj-context="" tabindex="0" x-ms-format-detection="none" role="grid" aria-busy="false" aria-rowcount="389" aria-multiselectable="false"><li id="ui-id-1027:empty" class="oj-listview-no-data-message oj-listview-empty-text">No schools found.</li></ul>
+            </template>
           </template>
         </oj-list-view>
       </div>
