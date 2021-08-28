@@ -123,6 +123,10 @@ demo-profile-card-layout:not(.oj-complete) {
   width: 261px;
 }
 
+.oj-action-card-mobile-css {
+  top:0px !important;
+}
+
 /* For IE11 Support */
 
 @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {

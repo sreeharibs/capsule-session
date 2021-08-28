@@ -232,7 +232,7 @@ handleCourseFilterChanged = (
     if(event.detail.value && event.detail.value != "All") {
         
         criteria.push({ op: "$co", value: { courses: event.detail.value } });
-        console.log(event.detail.value);
+
 
     }
     this.courseCriteria = criteria;
@@ -248,7 +248,7 @@ event: ojSelectSingle.valueChanged<OptionData["value"], OptionData>
   const criteria = new Array();
   if(event.detail.value && event.detail.value != "All") {
       criteria.push({ op: "$co", value: { secondlanguagestooltip: event.detail.value } });
-      console.log(event.detail.value);
+
   }
   this.langCriteria = criteria;
       
@@ -435,7 +435,7 @@ constructor(context: Composite.ViewModelContext<Composite.PropertiesType>) {
           download: true,
           header: true,
           complete: function(results) {
-            console.log(results.data);
+
             self.baseDataProvider = new ArrayDataProvider(results.data, {
               keyAttributes: "ID",
             });
