@@ -3,10 +3,9 @@
  Licensed under The Universal Permissive License (UPL), Version 1.0
  as shown at https://oss.oracle.com/licenses/upl/
  -->
-<!-- <div class="oj-hybrid-padding">
+<div class="oj-hybrid-padding oj-sm-only oj-md-hide">
   <h3>Capsule Session</h3>
-  <div>
-  </div> -->
+  <!-- </div> -->
 
   <div id="waterfall-container">
     <!-- <oj-buttonset-one id="filters" on-value-changed="[[handleFilterChanged]]" value="[[filters]]" aria-label="Choose to show employees or departments or both." class="oj-buttonset-width-auto">
@@ -16,7 +15,48 @@
       <oj-option value="Biology">Biology</oj-option>
     </oj-buttonset-one> -->
 
-    <oj-waterfall-layout id="waterfall" aria-label="dashboard" class="demo-waterfall" data="[[dataProvider]]">
+    <div class="oj-sm-only oj-md-hide">
+      <oj-waterfall-layout id="waterfall" aria-label="dashboard" class="demo-waterfall" data="[[dataProvider]]">
+        <template slot="itemTemplate" data-oj-as="item">
+          <oj-action-card class="oj-flex-item oj-sm-11 oj-action-card-mobile-css" style="padding:10px; margin: 0px; border-radius: 0%;position:relative !important;top:0px !important">
+            <div class="demo-profile-card-layout-container1">
+                <div class="demo-profile-card-layout-inner1" data-bind="attr: { 'data-link': item.data.link }" on-click="[[clickListener]]">
+                  <div class="oj-text-primary-color demo-profile-card-layout-emp-name1 oj-typography-subheading-xs">
+                    <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
+                  </div>
+                  <div class="demo-profile-card-layout-emp-spacer"></div>
+                  <div class="oj-text-tertiary-color demo-profile-card-layout-emp-title1 oj-typography-body-md">
+                    <oj-bind-text value="[[item.data.subtitle]]"></oj-bind-text>
+                  </div>
+                </div>
+              </div>
+            </oj-action-card>
+        </template>
+      </oj-waterfall-layout>
+    </div>
+  
+    <div class="oj-flex-item oj-sm-only-hide">
+      <oj-waterfall-layout id="waterfall" aria-label="dashboard" class="demo-waterfall" data="[[dataProvider]]">
+        <template slot="itemTemplate" data-oj-as="item">
+            <oj-action-card class="oj-flex-item">
+              <div class="demo-profile-card-layout-container">
+                <div class="demo-profile-card-layout-inner" data-bind="attr: { 'data-link': item.data.link }" on-click="[[clickListener]]">
+                  <oj-avatar class="demo-profile-card-layout-emp-image oj-complete" role="img" size="xxl" initials='[[item.data.tags]]' src="[[item.data.thumbnail]]" :aria-label="[['Avatar of ' + item.data.name]]"></oj-avatar>
+                  <div class="oj-text-primary-color demo-profile-card-layout-emp-name oj-typography-subheading-xs">
+                    <oj-bind-text value="[[item.data.title]]"></oj-bind-text>
+                  </div>
+                  <div class="demo-profile-card-layout-emp-spacer"></div>
+                  <div class="oj-text-tertiary-color demo-profile-card-layout-emp-title oj-typography-body-md">
+                    <oj-bind-text value="[[item.data.subtitle]]"></oj-bind-text>
+                  </div>
+                </div>
+              </div>
+            </oj-action-card>
+        </template>
+      </oj-waterfall-layout>
+    </div>
+
+    <!-- <oj-waterfall-layout id="waterfall" aria-label="dashboard" class="demo-waterfall" data="[[dataProvider]]">
       <template slot="itemTemplate" data-oj-as="item">
           <oj-action-card class="oj-flex-item">
             </demo-profile-card-layout>
@@ -34,7 +74,7 @@
             </div>
           </oj-action-card>
       </template>
-    </oj-waterfall-layout>
+    </oj-waterfall-layout> -->
   </div>
 
 
