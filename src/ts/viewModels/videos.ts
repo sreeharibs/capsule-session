@@ -46,7 +46,7 @@ class SSLCPhysicsViewModel {
   readonly filters = "all";
 
   private readonly chapters = [
-    { value: "all", label: "All" },
+    { value: "all", label: "Select Chapter" },
     { value: "chapter1", label: "Chapter 1" },
     { value: "chapter2", label: "Chapter 2" },
     { value: "chapter3", label: "Chapter 3" },
