@@ -8,4 +8,13 @@ Excites is an open source project aimed at simplifying development, management a
 * **Server / VM** :
     Setting up our own instances on Google cloud or AWS incures a higher charge. Excites needs the server only for the initial run, rest of the communication happens between the browser and google sheets. Hence it saves a lot of CPU.
 
+
+# Setup
+install node
+install ojet cli - npm install -g @oracle/ojet-cli
+ojet restore
+ojet build
+ojet serve web
+
+
  

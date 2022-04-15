@@ -11,8 +11,11 @@ import "ojs/ojknockout";
 import "ojs/ojwaterfalllayout";
 import "ojs/ojactioncard";
 import "ojs/ojbutton";
+import "ojs/ojselectsingle";
 import { ojButtonsetOne } from "ojs/ojbutton";
 import "ojs/ojavatar";
+import * as responsiveUtils from "ojs/ojresponsiveutils";
+import * as responsiveKnockoutUtils from "ojs/ojresponsiveknockoututils";
 
 import PapaParse = require("papaparse");
 import $ = require("jquery");
@@ -38,8 +41,25 @@ class SSLCPhysicsViewModel {
 
   private standard;
   subject = ko.observable();
+  isSmall: ko.Observable<boolean>;
 
   readonly filters = "all";
+
+  private readonly chapters = [
+    { value: "all", label: "All" },
+    { value: "chapter1", label: "Chapter 1" },
+    { value: "chapter2", label: "Chapter 2" },
+    { value: "chapter3", label: "Chapter 3" },
+    { value: "chapter4", label: "Chapter 4" },
+    { value: "chapter5", label: "Chapter 5" },
+    { value: "chapter6", label: "Chapter 6" },
+    { value: "chapter7", label: "Chapter 7" },
+    { value: "specials", label: "Other" }
+  ];
+
+  readonly chaptersDP = new ArrayDataProvider(this.chapters, {
+    keyAttributes: "value",
+  });
 
   clickListener = (
     event: Event,
@@ -91,6 +111,12 @@ class SSLCPhysicsViewModel {
   };
 
   constructor() {
+
+    let smQuery =  responsiveUtils.getFrameworkQuery(
+      responsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY);
+      this.isSmall = responsiveKnockoutUtils.createMediaQueryObservable(
+        smQuery
+      );
 
     this.dataProvider = ko.observable();
     this.baseDataProvider = ko.observable();
